@@ -1,0 +1,55 @@
+# theme = "gruber-darker"
+# theme = "adwaita-dark"
+# theme = "papercolor-light"
+theme = "starlight"
+
+[editor]
+scrolloff = 8
+mouse = false
+auto-save = true
+auto-format = true
+popup-border = "all"
+
+[editor.cursor-shape]
+insert = "block"
+normal = "block"
+select = "underline"
+
+[keys.normal]
+C-right = "move_next_word_end"
+C-left = "move_prev_word_start"
+C-s = ":write"
+A-up = ["extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
+A-down = ["extend_to_line_bounds", "delete_selection", "paste_after"]
+
+[keys.insert]
+C-right = "move_next_word_end"
+C-left = "move_prev_word_start"
+C-s = ":write"
+A-up = ["normal_mode", "extend_to_line_bounds", "delete_selection", "move_line_up", "paste_before"]
+A-down = ["normal_mode", "extend_to_line_bounds", "delete_selection", "paste_after"]
+
+[keys.normal.space]
+x = ":buffer-close"
+
+[keys.normal.space.f]
+e = "file_explorer"
+o = "file_explorer_in_current_buffer_directory"
+f = "file_picker"
+
+[keys.normal.o]
+o = ":oil"
+e = ":oil-enter"
+b = ":oil-back"
+g = ":oil-root"
+s = ":oil-save"
+r = ":oil-refresh"
+q = ":oil-close"
+h = ":oil-toggle-hidden"
+i = ":oil-toggle-git-ignored"
+
+[keys.normal.o.m]
+y = ":oil-yank"
+x = ":oil-cut"
+p = ":oil-paste"
+c = ":oil-clipboard-clear"
