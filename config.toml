@@ -1,14 +1,18 @@
 # theme = "gruber-darker"
-# theme = "adwaita-dark"
+theme = "adwaita-dark"
 # theme = "papercolor-light"
-theme = "starlight"
+# theme = "starlight"
+# theme = "andromeda"
 
 [editor]
 scrolloff = 8
-mouse = false
+mouse = true
 auto-save = true
 auto-format = true
 popup-border = "all"
+
+[editor.statusline]
+right = ["diagnostics", "selections", "primary-selection-length", "position", "file-encoding"]
 
 [editor.cursor-shape]
 insert = "block"
