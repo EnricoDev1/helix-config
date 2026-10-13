@@ -9,7 +9,7 @@
 (provide p)
 
 (define eval-string
-  "import sys\ntry:\n print(eval('#fmt(#val)'))\nexcept Exception as e:\n print('eval err')")
+  "import sys\ntry:\n print(eval('#fmt(#val)'), end='')\nexcept Exception as e:\n print(end='')")
 
 (define (pyeval expr fmt)
   (~> (command "python3"
@@ -25,25 +25,31 @@
 (define (fmt-name fmt)
   (cond
     [(equal? fmt "x") "hex"]
-    [(equal? fmt "d") "dec"]
-    [(equal? fmt "o") "oct"]
+    [(equal? fmt "d") "int"]
     [(equal? fmt "b") "bin"]
+    [(equal? fmt "o") "oct"]
     [else #f]
   )
 )
 
-
-; TODO: trovare il modo di prendere la selezione corrente
 (define (p . args)
-  (let* ([fmt (fmt-name (car args))]
-         [rest (cdr args)])
-    (cond
-      [(equal? (length args) 0) (set-status! "use: :p <x|d|o|b> [expr]")]
-      [(equal? (car args) "x") (set-status! (pyeval (string-join rest) fmt))]
-      [(equal? (car args) "d") (set-status! (pyeval (string-join rest) fmt))]
-      [(equal? (car args) "o") (set-status! (pyeval (string-join rest) fmt))]
-      [(equal? (car args) "b") (set-status! (pyeval (string-join rest) fmt))]
-    ) 
+  (cond
+    [(null? args) (set-status! "use: :p <x|d|o|b>")]
+    [(not (fmt-name (car args))) (set-status! "invalid format (use x, d, o, b)")]
+    [else
+
+      (let* ([fmt (fmt-name (car args))]
+            [rest (cdr args)]
+            [sel-len (string-length (current-highlighted-text!))]
+            [from-args (not (null? rest))]
+            [action (if from-args set-status! replace-selection-with)]
+            [expr (if from-args (string-join rest) (current-highlighted-text!))]
+            [res (trim (pyeval expr fmt))])
+        (if (= (string-length res) 0)
+          (set-status! "err")
+          (action (trim (pyeval expr fmt)))
+        )
+    )]
   )
 )
 
