@@ -37,18 +37,20 @@
     [(null? args) (set-status! "use: :p <x|d|o|b>")]
     [(not (fmt-name (car args))) (set-status! "invalid format (use x, d, o, b)")]
     [else
-
-      (let* ([fmt (fmt-name (car args))]
-            [rest (cdr args)]
-            [sel-len (string-length (current-highlighted-text!))]
+      (let* ([fmt      (fmt-name (car args))]
+            [rest      (cdr args)]
+            [sel-len   (string-length (current-highlighted-text!))]
             [from-args (not (null? rest))]
-            [action (if from-args set-status! replace-selection-with)]
-            [expr (if from-args (string-join rest) (current-highlighted-text!))]
-            [res (trim (pyeval expr fmt))])
+            [action    (if from-args
+                           set-status!
+                           replace-selection-with)]
+            [expr      (if from-args
+                           (string-join rest)
+                           (current-highlighted-text!))]
+            [res       (trim (pyeval expr fmt))])
         (if (= (string-length res) 0)
           (set-status! "err")
-          (action (trim (pyeval expr fmt)))
-        )
+          (action (trim (pyeval expr fmt))))
     )]
   )
 )
