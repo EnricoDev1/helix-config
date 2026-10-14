@@ -47,11 +47,10 @@
             [expr      (if from-args
                            (string-join rest)
                            (current-highlighted-text!))]
-            [res       (trim (pyeval expr fmt))])
+            [res       (trim (pyeval (trim expr) fmt))])
         (if (= (string-length res) 0)
           (set-status! "err")
-          (action (trim (pyeval expr fmt))))
+          (action (trim (pyeval (trim expr) fmt))))
     )]
   )
 )
-
